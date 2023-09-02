@@ -23,6 +23,14 @@ public class ManaPoint {
         this.value -= manaPoint.getValue();
     }
 
+    public boolean isBigger(final ManaPoint target) {
+        return value > target.value;
+    }
+
+    public void fillMax(final ManaPoint maxManaPoint) {
+        value = maxManaPoint.value;
+    }
+
     public int getValue() {
         return value;
     }

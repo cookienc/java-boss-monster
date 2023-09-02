@@ -20,6 +20,10 @@ public class Status {
 
     public void plusManaPoint(final ManaPoint restoreMana) {
         currentManaPoint.plus(restoreMana);
+
+        if (currentManaPoint.isBigger(originManaPoint)) {
+            currentManaPoint.fillMax(originManaPoint);
+        }
     }
 
     public void minusHealthPoint(final Damage attackDamage) {
