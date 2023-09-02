@@ -19,6 +19,10 @@ public class HealthPoint {
         this.value -= damage.getValue();
     }
 
+    public boolean isZero() {
+        return value == 0;
+    }
+
     public int getValue() {
         return value;
     }

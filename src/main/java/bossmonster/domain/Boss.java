@@ -2,13 +2,14 @@ package bossmonster.domain;
 
 import bossmonster.domain.vo.Damage;
 import bossmonster.domain.vo.HealthPoint;
+import bossmonster.domain.vo.Status;
 
 public class Boss extends Damageable implements Attackable {
 
-    private final HealthPoint healthPoint;
+    private final Status status;
 
     public Boss(final HealthPoint healthPoint) {
-        this.healthPoint = healthPoint;
+        this.status = new Status(healthPoint);
     }
 
     @Override
@@ -18,10 +19,15 @@ public class Boss extends Damageable implements Attackable {
 
     @Override
     protected void minusHealthPoint(final Damage attackDamage) {
-        healthPoint.minus(attackDamage);
+        status.minusHealthPoint(attackDamage);
     }
 
-    public HealthPoint getHealthPoint() {
-        return healthPoint;
+    @Override
+    public boolean isDead() {
+        return status.isDead();
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }

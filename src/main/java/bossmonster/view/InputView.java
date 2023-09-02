@@ -12,11 +12,13 @@ public class InputView {
     }
 
     public String inputPlayerName() {
+        System.out.println();
         System.out.println("플레이어의 이름을 입력해주세요.");
         return SCANNER.nextLine();
     }
 
     public StatusDto inputPlayerStatus() {
+        System.out.println();
         System.out.println("플레이어의 HP와 MP를 입력해주세요.(,로 구분)");
 
         try {
@@ -30,5 +32,10 @@ public class InputView {
         } catch (final IllegalArgumentException e) {
             return inputPlayerStatus();
         }
+    }
+
+    public void printStartMessage() {
+        System.out.println("보스 레이드를 시작합니다!");
+        System.out.println();
     }
 }

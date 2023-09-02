@@ -34,6 +34,11 @@ public class Player extends Damageable implements Attackable {
     }
 
     @Override
+    public boolean isDead() {
+        return status.isDead();
+    }
+
+    @Override
     public void attack(final Damageable target, final AttackSkill attackSkill) {
         target.minusHealthPoint(attackSkill.getAttackDamage());
         status.minusManaPoint(attackSkill.getConsumeManaPoint());
@@ -41,5 +46,9 @@ public class Player extends Damageable implements Attackable {
 
     public Name getName() {
         return name;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }

@@ -9,6 +9,8 @@ import bossmonster.domain.vo.Status;
 import bossmonster.view.InputView;
 import bossmonster.view.OutputView;
 import bossmonster.view.StatusDto;
+import bossmonster.view.dto.BossStatusResponse;
+import bossmonster.view.dto.PlayerStatusResponse;
 
 import java.util.Objects;
 
@@ -28,6 +30,31 @@ public class GameController {
         final Name name = getName();
         final Status status = getStatus();
         final Player player = new Player(name, status);
+
+        inputView.printStartMessage();
+        outputView.printStartStatus(
+                BossStatusResponse.from(boss.getStatus()),
+                player.getName().getValue(),
+                PlayerStatusResponse.from(player.getStatus())
+        );
+
+        while (true) {
+            if (boss.isDead()) {
+                /**
+                 * 플레이어 승리 결과
+                 */
+                break;
+            }
+
+            if (player.isDead()) {
+                /**
+                 * 게임 실패
+                 */
+                break;
+            }
+
+
+        }
     }
 
     private Boss getBoss() {
