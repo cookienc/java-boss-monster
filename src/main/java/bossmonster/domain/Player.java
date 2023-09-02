@@ -1,9 +1,9 @@
 package bossmonster.domain;
 
 import bossmonster.domain.vo.Damage;
-import bossmonster.domain.vo.HealthPoint;
 import bossmonster.domain.vo.ManaPoint;
 import bossmonster.domain.vo.Name;
+import bossmonster.domain.vo.Status;
 
 public class Player extends Damageable implements Attackable {
 
@@ -12,18 +12,16 @@ public class Player extends Damageable implements Attackable {
     private static final ManaPoint RESTORE_MANA = new ManaPoint(10);
 
     private final Name name;
-    private final HealthPoint healthPoint;
-    private final ManaPoint manaPoint;
+    private final Status status;
 
-    public Player(final Name name, final HealthPoint healthPoint, final ManaPoint manaPoint) {
+    public Player(final Name name, final Status status) {
         this.name = name;
-        this.healthPoint = healthPoint;
-        this.manaPoint = manaPoint;
+        this.status = status;
     }
 
     public void attackPhysical(final Damageable target, final AttackSkill attackSkill) {
         attack(target, PHYSICAL_ATTACK);
-        manaPoint.plus(RESTORE_MANA);
+        status.plusManaPoint(RESTORE_MANA);
     }
 
     public void attackMagic(final Damageable target, final AttackSkill attackSkill) {
@@ -32,24 +30,16 @@ public class Player extends Damageable implements Attackable {
 
     @Override
     protected void minusHealthPoint(final Damage attackDamage) {
-        healthPoint.minus(attackDamage);
+        status.minusHealthPoint(attackDamage);
     }
 
     @Override
     public void attack(final Damageable target, final AttackSkill attackSkill) {
         target.minusHealthPoint(attackSkill.getAttackDamage());
-        manaPoint.minus(attackSkill.getConsumeManaPoint());
+        status.minusManaPoint(attackSkill.getConsumeManaPoint());
     }
 
     public Name getName() {
         return name;
-    }
-
-    public HealthPoint getHealthPoint() {
-        return healthPoint;
-    }
-
-    public ManaPoint getManaPoint() {
-        return manaPoint;
     }
 }

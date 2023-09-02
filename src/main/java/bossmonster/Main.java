@@ -1,7 +1,13 @@
 package bossmonster;
 
+import bossmonster.controller.GameController;
+import bossmonster.view.InputView;
+import bossmonster.view.OutputView;
+
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        final GameController gameController = new GameController(new InputView(), new OutputView());
+        gameController.playGame();
     }
 }
