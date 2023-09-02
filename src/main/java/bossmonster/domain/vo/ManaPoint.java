@@ -2,7 +2,7 @@ package bossmonster.domain.vo;
 
 public class ManaPoint {
 
-    private final int value;
+    private int value;
 
     public ManaPoint(final int value) {
         validateRange(value);
@@ -13,6 +13,14 @@ public class ManaPoint {
         if (value < 0) {
             throw new IllegalStateException("MP 는 0 보다 작을 수 없습니다.");
         }
+    }
+
+    public void plus(final ManaPoint manaPoint) {
+        this.value += manaPoint.getValue();
+    }
+
+    public void minus(final ManaPoint manaPoint) {
+        this.value -= manaPoint.getValue();
     }
 
     public int getValue() {

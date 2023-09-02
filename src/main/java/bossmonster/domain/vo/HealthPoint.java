@@ -2,7 +2,7 @@ package bossmonster.domain.vo;
 
 public class HealthPoint {
 
-    private final int value;
+    private int value;
 
     public HealthPoint(final int value) {
         validateRange(value);
@@ -13,6 +13,10 @@ public class HealthPoint {
         if (value < 0) {
             throw new IllegalStateException("HP 는 0 보다 작을 수 없습니다.");
         }
+    }
+
+    public void minus(final Damage damage) {
+        this.value -= damage.getValue();
     }
 
     public int getValue() {
