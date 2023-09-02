@@ -1,11 +1,15 @@
 package bossmonster.controller;
 
+import bossmonster.domain.AttackSkill;
 import bossmonster.domain.Boss;
+import bossmonster.domain.DamageGenerator;
 import bossmonster.domain.Player;
+import bossmonster.domain.vo.Damage;
 import bossmonster.domain.vo.HealthPoint;
 import bossmonster.domain.vo.ManaPoint;
 import bossmonster.domain.vo.Name;
 import bossmonster.domain.vo.Status;
+import bossmonster.view.AttackCommand;
 import bossmonster.view.InputView;
 import bossmonster.view.OutputView;
 import bossmonster.view.StatusDto;
@@ -24,7 +28,7 @@ public class GameController {
         this.outputView = outputView;
     }
 
-    public void playGame() {
+    public void playGame(final DamageGenerator damageGenerator) {
         final Boss boss = getBoss();
 
         final Name name = getName();
@@ -32,7 +36,7 @@ public class GameController {
         final Player player = new Player(name, status);
 
         inputView.printStartMessage();
-        outputView.printStartStatus(
+        outputView.printStartState(
                 BossStatusResponse.from(boss.getStatus()),
                 player.getName().getValue(),
                 PlayerStatusResponse.from(player.getStatus())
@@ -53,7 +57,12 @@ public class GameController {
                 break;
             }
 
-
+            attack(player, boss, damageGenerator);
+            outputView.printProgressState(
+                    BossStatusResponse.from(boss.getStatus()),
+                    player.getName().getValue(),
+                    PlayerStatusResponse.from(player.getStatus())
+            );
         }
     }
 
@@ -74,18 +83,6 @@ public class GameController {
         }
 
         return new Boss(new HealthPoint(bossHealthPoint));
-    }
-
-    private Player getPlayer() {
-        try {
-            final Name name = getName();
-            final Status status = getStatus();
-
-            return new Player(name, status);
-        } catch (final IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            return getPlayer();
-        }
     }
 
     private Name getName() {
@@ -125,5 +122,28 @@ public class GameController {
         } catch (final NumberFormatException e) {
             throw new IllegalArgumentException("숫자로 입력해주세요.");
         }
+    }
+
+    private void attack(final Player player, final Boss boss, final DamageGenerator damageGenerator) {
+        final AttackCommand attackCommand = getAttackCommand();
+        final int damage = damageGenerator.getDamage();
+
+        if (attackCommand.isPhysicalAttack()) {
+            player.attackPhysical(boss);
+            outputView.printPhysicalAttackMessage();
+            boss.attack(player, new AttackSkill(new Damage(damage)));
+            outputView.printBossAttackMessage(damage);
+            return;
+        }
+
+        player.attackMagic(boss);
+        outputView.printMagicalAttackMessage();
+        boss.attack(player, new AttackSkill(new Damage(damage)));
+        outputView.printBossAttackMessage(damage);
+    }
+
+    private AttackCommand getAttackCommand() {
+        final String input = inputView.selectAttackCommand();
+        return AttackCommand.from(input);
     }
 }

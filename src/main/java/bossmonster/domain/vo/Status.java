@@ -12,10 +12,10 @@ public class Status {
     }
 
     public Status(final HealthPoint healthPoint, final ManaPoint manaPoint) {
-        this.currentHealthPoint = healthPoint;
-        this.origineHealthPoint = healthPoint;
-        this.currentManaPoint = manaPoint;
-        this.originManaPoint = manaPoint;
+        this.currentHealthPoint = new HealthPoint(healthPoint.getValue());
+        this.origineHealthPoint = new HealthPoint(healthPoint.getValue());
+        this.currentManaPoint = new ManaPoint(manaPoint.getValue());
+        this.originManaPoint = new ManaPoint(manaPoint.getValue());
     }
 
     public void plusManaPoint(final ManaPoint restoreMana) {

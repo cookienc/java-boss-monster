@@ -38,4 +38,11 @@ public class InputView {
         System.out.println("보스 레이드를 시작합니다!");
         System.out.println();
     }
+
+    public String selectAttackCommand() {
+        System.out.println("어떤 공격을 하시겠습니까?");
+        System.out.println("1. 물리 공격");
+        System.out.println("2. 마법 공격");
+        return SCANNER.nextLine();
+    }
 }

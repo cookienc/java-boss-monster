@@ -19,12 +19,12 @@ public class Player extends Damageable implements Attackable {
         this.status = status;
     }
 
-    public void attackPhysical(final Damageable target, final AttackSkill attackSkill) {
+    public void attackPhysical(final Damageable target) {
         attack(target, PHYSICAL_ATTACK);
         status.plusManaPoint(RESTORE_MANA);
     }
 
-    public void attackMagic(final Damageable target, final AttackSkill attackSkill) {
+    public void attackMagic(final Damageable target) {
         attack(target, MAGICAL_ATTACK);
     }
 

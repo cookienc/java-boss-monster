@@ -12,7 +12,7 @@ public class OutputView {
         System.out.printf(ERROR_MESSAGE_TEMPLATE, message);
     }
 
-    public void printStartStatus(final BossStatusResponse bossStatus, final String playerName, final PlayerStatusResponse playerStatus) {
+    public void printStartState(final BossStatusResponse bossStatus, final String playerName, final PlayerStatusResponse playerStatus) {
         System.out.println();
         System.out.println("============================");
         System.out.printf("BOSS HP [%s/%s]%n", bossStatus.getCurrentHealthPoint(), bossStatus.getOriginHealthPoint());
@@ -25,11 +25,46 @@ public class OutputView {
         System.out.println("----------------------------");
         System.out.printf("%s HP [%s/%s] MP [%s/%s]%n",
                 playerName,
-                bossStatus.getCurrentHealthPoint(),
-                bossStatus.getOriginHealthPoint(),
+                playerStatus.getCurrentHealthPoint(),
+                playerStatus.getOriginHealthPoint(),
                 playerStatus.getCurrentManaPoint(),
                 playerStatus.getOriginManaPoint()
         );
         System.out.println("============================");
+    }
+
+    public void printProgressState(final BossStatusResponse bossStatus, final String playerName, final PlayerStatusResponse playerStatus) {
+        System.out.println();
+        System.out.println("============================");
+        System.out.printf("BOSS HP [%s/%s]%n", bossStatus.getCurrentHealthPoint(), bossStatus.getOriginHealthPoint());
+        System.out.println("----------------------------");
+        System.out.println("   ^-^");
+        System.out.println(" / x x \\");
+        System.out.println("(   \"\\  )");
+        System.out.println(" \\  ^  /");
+        System.out.println("  - ^ -");
+        System.out.println("----------------------------");
+        System.out.printf("%s HP [%s/%s] MP [%s/%s]%n",
+                playerName,
+                playerStatus.getCurrentHealthPoint(),
+                playerStatus.getOriginHealthPoint(),
+                playerStatus.getCurrentManaPoint(),
+                playerStatus.getOriginManaPoint()
+        );
+        System.out.println("============================");
+
+    }
+
+    public void printPhysicalAttackMessage() {
+        System.out.println("물리 공격을 했습니다.");
+    }
+
+    public void printMagicalAttackMessage() {
+        System.out.println("마법 공격을 했습니다.");
+    }
+
+    public void printBossAttackMessage(final int damage) {
+        System.out.println("보스가 공격 했습니다.");
+        System.out.printf("HP -%s%n", damage);
     }
 }

@@ -8,6 +8,10 @@ public class AttackSkill {
     private final Damage attackDamage;
     private final ManaPoint consumeManaPoint;
 
+
+    public AttackSkill(final Damage attackDamage) {
+        this(attackDamage, new ManaPoint(0));
+    }
     public AttackSkill(final Damage attackDamage, final ManaPoint consumeManaPoint) {
         this.attackDamage = attackDamage;
         this.consumeManaPoint = consumeManaPoint;
