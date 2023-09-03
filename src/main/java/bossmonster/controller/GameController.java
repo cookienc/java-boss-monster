@@ -1,10 +1,8 @@
 package bossmonster.controller;
 
-import bossmonster.domain.AttackSkill;
 import bossmonster.domain.Boss;
 import bossmonster.domain.DamageGenerator;
 import bossmonster.domain.Player;
-import bossmonster.domain.vo.Damage;
 import bossmonster.domain.vo.HealthPoint;
 import bossmonster.domain.vo.ManaPoint;
 import bossmonster.domain.vo.Name;
@@ -42,22 +40,27 @@ public class GameController {
                 PlayerStatusResponse.from(player.getStatus())
         );
 
+        int attackCount = 0;
         while (true) {
+            final AttackCommand attackCommand = getAttackCommand();
+
+            attackPlayer(attackCommand, player, boss);
+            attackCount++;
             if (boss.isDead()) {
-                /**
-                 * 플레이어 승리 결과
-                 */
+                outputView.printPlayerWinMessage(player.getName().getValue(), attackCount);
                 break;
             }
 
+            attackBoss(damageGenerator);
             if (player.isDead()) {
-                /**
-                 * 게임 실패
-                 */
+                outputView.printBossMinMessage(
+                        BossStatusResponse.from(boss.getStatus()),
+                        player.getName().getValue(),
+                        PlayerStatusResponse.from(player.getStatus())
+                );
                 break;
             }
 
-            attack(player, boss, damageGenerator);
             outputView.printProgressState(
                     BossStatusResponse.from(boss.getStatus()),
                     player.getName().getValue(),
@@ -124,26 +127,24 @@ public class GameController {
         }
     }
 
-    private void attack(final Player player, final Boss boss, final DamageGenerator damageGenerator) {
-        final AttackCommand attackCommand = getAttackCommand();
-        final int damage = damageGenerator.getDamage();
+    private AttackCommand getAttackCommand() {
+        final String input = inputView.selectAttackCommand();
+        return AttackCommand.from(input);
+    }
 
+    private void attackPlayer(final AttackCommand attackCommand, final Player player, final Boss boss) {
         if (attackCommand.isPhysicalAttack()) {
             player.attackPhysical(boss);
             outputView.printPhysicalAttackMessage();
-            boss.attack(player, new AttackSkill(new Damage(damage)));
-            outputView.printBossAttackMessage(damage);
             return;
         }
 
         player.attackMagic(boss);
         outputView.printMagicalAttackMessage();
-        boss.attack(player, new AttackSkill(new Damage(damage)));
-        outputView.printBossAttackMessage(damage);
     }
 
-    private AttackCommand getAttackCommand() {
-        final String input = inputView.selectAttackCommand();
-        return AttackCommand.from(input);
+    private void attackBoss(final DamageGenerator damageGenerator) {
+        final int damage = damageGenerator.getDamage();
+        outputView.printBossAttackMessage(damage);
     }
 }
