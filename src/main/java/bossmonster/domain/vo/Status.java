@@ -38,6 +38,10 @@ public class Status {
         return currentHealthPoint.isZero();
     }
 
+    public boolean isDeficientManaPoint(final ManaPoint consumeManaPoint) {
+        return consumeManaPoint.isBigger(currentManaPoint);
+    }
+
     public HealthPoint getCurrentHealthPoint() {
         return currentHealthPoint;
     }

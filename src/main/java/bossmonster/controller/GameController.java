@@ -42,9 +42,15 @@ public class GameController {
 
         int attackCount = 0;
         while (true) {
-            final AttackCommand attackCommand = getAttackCommand();
 
-            attackPlayer(attackCommand, player, boss);
+            try {
+                final AttackCommand attackCommand = getAttackCommand();
+                attackPlayer(attackCommand, player, boss);
+            } catch (final IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+                continue;
+            }
+
             attackCount++;
             if (boss.isDead()) {
                 outputView.printPlayerWinMessage(player.getName().getValue(), attackCount);
@@ -139,6 +145,9 @@ public class GameController {
             return;
         }
 
+        if (player.isDeficientManaPoint()) {
+            throw new IllegalArgumentException("MP 가 부족해 공격할 수 없습니다.");
+        }
         player.attackMagic(boss);
         outputView.printMagicalAttackMessage();
     }

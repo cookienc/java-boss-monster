@@ -28,6 +28,10 @@ public class Player extends Damageable implements Attackable {
         attack(target, MAGICAL_ATTACK);
     }
 
+    public boolean isDeficientManaPoint() {
+        return status.isDeficientManaPoint(MAGICAL_ATTACK.getConsumeManaPoint());
+    }
+
     @Override
     protected void minusHealthPoint(final Damage attackDamage) {
         status.minusHealthPoint(attackDamage);
